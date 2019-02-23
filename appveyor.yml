@@ -1,18 +1,20 @@
 image:
-  - Visual Studio 2017
+    - Visual Studio 2017
 install:
-  - ps: iex (new-object net.webclient).downloadstring('https://get.scoop.sh')
-  - scoop install ffmpeg
-  - refreshenv
+    - ps: iex (new-object net.webclient).downloadstring('https://get.scoop.sh')
+    - scoop install ffmpeg
+    - refreshenv
 build_script:
-  - dotnet build -c Release
-  - dotnet build ExampleProject -c Release
+    - dotnet build -c Release
+    - dotnet build ExampleProject -c Release
+test_script:
+    - dotnet test -c Release
 branches:
-  only:
-    - master
+    only:
+        - master
 pull_requests:
-  do_not_increment_build_number: true
+    do_not_increment_build_number: true
 artifacts:
-  - path: '**\*.nupkg'
+    - path: '**\*.nupkg'
 nuget:
-  disable_publish_on_pr: true
+    disable_publish_on_pr: true

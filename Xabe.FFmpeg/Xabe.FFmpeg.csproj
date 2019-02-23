@@ -19,6 +19,10 @@
     <DelaySign>false</DelaySign>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageIconUrl>https://xabe.net/assets/new_xabe_logo-100x100.png</PackageIconUrl>
+    <PackageId>Xabe.FFmpeg</PackageId>
+    <PackageVersion>3.1.5</PackageVersion>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <NoWarn>NU5125;$(NoWarn)</NoWarn>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
