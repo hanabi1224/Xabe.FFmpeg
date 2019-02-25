@@ -8,7 +8,7 @@ build_script:
     - dotnet build -c Release
     - dotnet build ExampleProject -c Release
 test_script:
-    - dotnet test -c Release
+    - dotnet test -c Release -v d
 branches:
     only:
         - master
