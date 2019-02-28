@@ -173,7 +173,9 @@ namespace Xabe.FFmpeg.Test
             string output = Path.Combine(Path.GetTempPath(), Guid.NewGuid() + FileExtensions.WebM);
             using (var cancellationToken = new CancellationTokenSource())
             {
-                cancellationToken.CancelAfter(1000);
+                var beforeStart = DateTimeOffset.Now;
+                var cancelAfter = TimeSpan.FromSeconds(2);
+                cancellationToken.CancelAfter(cancelAfter);
                 Console.WriteLine($"Started setting up web stream");
                 var conversion = Conversion.New().AddStream(new WebStream(new Uri(@"rtsp://192.168.1.123:554/"), "M3U8", TimeSpan.FromMinutes(5))).SetOutput(output);
                 Console.WriteLine($"Finished setting up web stream");
@@ -184,6 +186,8 @@ namespace Xabe.FFmpeg.Test
                 IConversionResult conversionResult = null;
                 await Assert.ThrowsAsync<OperationCanceledException>(async () => conversionResult = await conversion.Start(cancellationToken.Token).ConfigureAwait(false)).ConfigureAwait(false);
                 Console.WriteLine($"Finished conversion");
+
+                (DateTimeOffset.Now - beforeStart).Should().BeGreaterOrEqualTo(cancelAfter);
 
                 conversionResult.Should().BeNull();
                 conversion.FFmpegProcessId.HasValue.Should().BeTrue();
@@ -205,7 +209,6 @@ namespace Xabe.FFmpeg.Test
 
             cancellationTokenSource.Cancel();
             await Assert.ThrowsAsync<OperationCanceledException>(async () => await task.ConfigureAwait(false)).ConfigureAwait(false);
-            ;
         }
 
         [CustomTheory]
