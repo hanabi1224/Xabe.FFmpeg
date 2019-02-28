@@ -14,7 +14,7 @@ namespace Xabe.FFmpeg.Test
             Console.WriteLine(GetType().Name);
         }
 
-        [Theory]
+        [CustomTheory]
         [InlineData(true)]
         [InlineData(false)]
         public void QueueTest(bool parallel)
@@ -43,8 +43,8 @@ namespace Xabe.FFmpeg.Test
         {
             IMediaInfo mediaInfo = MediaInfo.Get(currentConversion.OutputFilePath).ConfigureAwait(false).GetAwaiter().GetResult();
             Assert.Equal(TimeSpan.FromSeconds(9), mediaInfo.Duration);
-            Assert.Equal(1, mediaInfo.VideoStreams.Count());
-            Assert.Equal(1, mediaInfo.AudioStreams.Count());
+            Assert.Single(mediaInfo.VideoStreams);
+            Assert.Single(mediaInfo.AudioStreams);
             Assert.Equal("h264", mediaInfo.VideoStreams.First()
                                           .Format);
             Assert.Equal("aac", mediaInfo.AudioStreams.First()
@@ -53,7 +53,7 @@ namespace Xabe.FFmpeg.Test
                 resetEvent.Set();
         }
 
-        [Fact]
+        [CustomFact]
         public void QueueExceptionTest()
         {
             var queue = new ConversionQueue();
@@ -78,7 +78,7 @@ namespace Xabe.FFmpeg.Test
             Assert.True(exceptionOccures);
         }
 
-        [Fact]
+        [CustomFact]
         public void QueueNumberIncrementExceptionTest()
         {
             var queue = new ConversionQueue();

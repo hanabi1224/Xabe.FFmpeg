@@ -14,7 +14,7 @@ namespace Xabe.FFmpeg.Test
             Console.WriteLine(GetType().Name);
         }
 
-        [Fact]
+        [CustomFact]
         public async Task ConversionResultTest()
         {
             string outputPath = Path.ChangeExtension(Path.GetTempFileName(), ".mp4");
@@ -30,7 +30,7 @@ namespace Xabe.FFmpeg.Test
             Assert.True(result.Duration > TimeSpan.FromMilliseconds(1));
         }
 
-        [Fact]
+        [CustomFact]
         public async Task ConversionWithWrongInputTest2()
         {
             await Assert.ThrowsAsync<InvalidInputException>(async () => await MediaInfo.Get("Z:\\test.mp4").ConfigureAwait(false)).ConfigureAwait(false);

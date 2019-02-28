@@ -18,7 +18,7 @@ namespace Xabe.FFmpeg.Test
             Console.WriteLine(GetType().Name);
         }
 
-        [Theory]
+        [CustomTheory]
         [InlineData(Position.UpperRight)]
         [InlineData(Position.BottomRight)]
         [InlineData(Position.Left)]
@@ -50,7 +50,7 @@ namespace Xabe.FFmpeg.Test
             Assert.False(mediaInfo.AudioStreams.Any());
         }
 
-        [Fact]
+        [CustomFact]
         public async Task SetVideoCodecTest()
         {
             string output = Path.Combine(Path.GetTempPath(), Guid.NewGuid() + FileExtensions.Mp4);
@@ -67,7 +67,7 @@ namespace Xabe.FFmpeg.Test
             Assert.Equal("mpeg4", resultFile.VideoStreams.First().Format);
         }
 
-        [Fact]
+        [CustomFact]
         public async Task SetAudioCodecTest()
         {
             string output = Path.Combine(Path.GetTempPath(), Guid.NewGuid() + FileExtensions.Mp4);
@@ -84,7 +84,7 @@ namespace Xabe.FFmpeg.Test
             Assert.Equal("ac3", resultFile.AudioStreams.First().Format);
         }
 
-        [Fact]
+        [CustomFact]
         public async Task OverwriteFilesTest()
         {
             string output = Path.Combine(Path.GetTempPath(), Guid.NewGuid() + FileExtensions.Mp4);
@@ -110,7 +110,7 @@ namespace Xabe.FFmpeg.Test
             Assert.DoesNotContain(" -n ", secondConversionResult.Arguments);
         }
 
-        [Fact]
+        [CustomFact]
         public async Task OverwriteFilesExceptionTest()
         {
             string output = Path.Combine(Path.GetTempPath(), Guid.NewGuid() + FileExtensions.Mp4);
@@ -145,8 +145,8 @@ namespace Xabe.FFmpeg.Test
         }
 
 
-        [SkipAppVeyorTheory]
-        [InlineData("a16f0cb5c0354b6197e9f3bc3108c017", Skip = "stuck on appveyor")]
+        [Theory(Timeout = 10000)]
+        [InlineData("a16f0cb5c0354b6197e9f3bc3108c017")]
         public async Task MissingHardwareAccelerator(string hardwareAccelerator)
         {
             string output = Path.Combine(Path.GetTempPath(), Guid.NewGuid() + FileExtensions.Mp4);
@@ -158,7 +158,7 @@ namespace Xabe.FFmpeg.Test
             }).ConfigureAwait(false);
         }
 
-        [Fact]
+        [CustomFact]
         public async Task UnknownDecoderException()
         {
             string output = Path.Combine(Path.GetTempPath(), Guid.NewGuid() + FileExtensions.Mp4);
@@ -171,7 +171,7 @@ namespace Xabe.FFmpeg.Test
             }).ConfigureAwait(false);
         }
 
-        [Fact]
+        [CustomFact]
         public async Task RTSP_NotExistingStream_CancelledSucesfully()
         {
             var ffmpegProcesses = System.Diagnostics.Process.GetProcessesByName("ffmpeg").Count();
@@ -185,7 +185,7 @@ namespace Xabe.FFmpeg.Test
             Assert.Equal(System.Diagnostics.Process.GetProcessesByName("ffmpeg").Count(), ffmpegProcesses);
         }
 
-        [Fact]
+        [CustomFact]
         public async Task Conversion_CancellationOccurs_ExeptionWasThrown()
         {
             string output = Path.Combine(Path.GetTempPath(), Guid.NewGuid() + FileExtensions.WebM);
@@ -200,7 +200,7 @@ namespace Xabe.FFmpeg.Test
             ;
         }
 
-        [Theory]
+        [CustomTheory]
         [InlineData(1)]
         [InlineData(8)]
         [InlineData(0)]
@@ -221,7 +221,7 @@ namespace Xabe.FFmpeg.Test
             Assert.Contains($"-threads {expectedThreadsCount}", conversionResult.Arguments);
         }
 
-        [Fact]
+        [CustomFact]
         public async Task UseMultithreadTest_WithoutThreadCount_AllThreads()
         {
             string output = Path.Combine(Path.GetTempPath(), Guid.NewGuid() + FileExtensions.Mp4);
@@ -239,7 +239,7 @@ namespace Xabe.FFmpeg.Test
             Assert.Contains($"-threads {Environment.ProcessorCount}", conversionResult.Arguments);
         }
 
-        [Fact]
+        [CustomFact]
         public async Task UseMultithreadTest_WithoutMultithread_OneThreadOnly()
         {
             string output = Path.Combine(Path.GetTempPath(), Guid.NewGuid() + FileExtensions.Mp4);

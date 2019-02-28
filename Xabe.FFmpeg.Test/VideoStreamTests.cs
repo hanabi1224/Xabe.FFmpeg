@@ -16,7 +16,7 @@ namespace Xabe.FFmpeg.Test
             Console.WriteLine(GetType().Name);
         }
 
-        [Theory]
+        [CustomTheory]
         [InlineData(RotateDegrees.Clockwise)]
         [InlineData(RotateDegrees.Invert)]
         public async Task TransposeTest(RotateDegrees rotateDegrees)
@@ -36,7 +36,7 @@ namespace Xabe.FFmpeg.Test
             Assert.False(mediaInfo.AudioStreams.Any());
         }
 
-        [Theory]
+        [CustomTheory]
         [InlineData(9, 9, 1.0)]
         [InlineData(5, 5, 2.0)]
         [InlineData(19, 19, 0.5)]
@@ -59,7 +59,7 @@ namespace Xabe.FFmpeg.Test
             Assert.False(mediaInfo.AudioStreams.Any());
         }
 
-        [Theory]
+        [CustomTheory]
         [InlineData(2.5)]
         [InlineData(0.4)]
         public async Task ChangeMediaSpeedSTestArgumentOutOfRange(double multiplication)
@@ -76,7 +76,7 @@ namespace Xabe.FFmpeg.Test
                                                                                               .Start().ConfigureAwait(false)).ConfigureAwait(false);
         }
 
-        [Fact]
+        [CustomFact]
         public async Task BurnSubtitlesTest()
         {
             IMediaInfo inputFile = await MediaInfo.Get(Resources.MkvWithAudio).ConfigureAwait(false);
@@ -94,7 +94,7 @@ namespace Xabe.FFmpeg.Test
             Assert.False(mediaInfo.AudioStreams.Any());
         }
 
-        [Fact]
+        [CustomFact]
         public async Task BurnSubtitlesWithParametersTest()
         {
             IMediaInfo inputFile = await MediaInfo.Get(Resources.MkvWithAudio).ConfigureAwait(false);
@@ -115,7 +115,7 @@ namespace Xabe.FFmpeg.Test
             Assert.Contains($":charenc=UTF-8:force_style='Fontsize=20,PrimaryColour=&H00ffff&,MarginV=30':original_size=1024x768", conversion.Build());
         }
 
-        [Fact]
+        [CustomFact]
         public async Task ChangeOutputFramesCountTest()
         {
             IMediaInfo inputFile = await MediaInfo.Get(Resources.MkvWithAudio).ConfigureAwait(false);
@@ -135,7 +135,7 @@ namespace Xabe.FFmpeg.Test
             Assert.Equal(50, mediaInfo.Duration.TotalSeconds * mediaInfo.VideoStreams.First().FrameRate);
         }
 
-        [Fact]
+        [CustomFact]
         public async Task IncompatibleParametersTest()
         {
             IMediaInfo inputFile = await MediaInfo.Get(Resources.MkvWithAudio).ConfigureAwait(false);
@@ -165,7 +165,7 @@ namespace Xabe.FFmpeg.Test
             }).ConfigureAwait(false);
         }
 
-        [Fact]
+        [CustomFact]
         public async Task LoopTest()
         {
             IMediaInfo inputFile = await MediaInfo.Get(Resources.Mp4).ConfigureAwait(false);
@@ -188,7 +188,7 @@ namespace Xabe.FFmpeg.Test
             Assert.False(mediaInfo.AudioStreams.Any());
         }
 
-        [Fact]
+        [CustomFact]
         public async Task ReverseTest()
         {
             IMediaInfo inputFile = await MediaInfo.Get(Resources.MkvWithAudio).ConfigureAwait(false);
@@ -209,7 +209,7 @@ namespace Xabe.FFmpeg.Test
             Assert.False(mediaInfo.AudioStreams.Any());
         }
 
-        [Fact]
+        [CustomFact]
         public async Task ScaleTest()
         {
             IMediaInfo inputFile = await MediaInfo.Get(Resources.MkvWithAudio).ConfigureAwait(false);
@@ -231,7 +231,7 @@ namespace Xabe.FFmpeg.Test
             Assert.Equal(96, mediaInfo.VideoStreams.First().Height);
         }
 
-        [Fact]
+        [CustomFact]
         public async Task SeekLengthTest()
         {
             IMediaInfo inputFile = await MediaInfo.Get(Resources.MkvWithAudio).ConfigureAwait(false);
@@ -257,7 +257,7 @@ namespace Xabe.FFmpeg.Test
             Assert.True(videoLength == TimeSpan.FromSeconds(7));
         }
 
-        [Fact]
+        [CustomFact]
         public async Task SimpleConversionTest()
         {
             IMediaInfo inputFile = await MediaInfo.Get(Resources.MkvWithAudio).ConfigureAwait(false);
@@ -275,7 +275,7 @@ namespace Xabe.FFmpeg.Test
             Assert.False(mediaInfo.AudioStreams.Any());
         }
 
-        [Fact]
+        [CustomFact]
         public async Task X265Test()
         {
             IMediaInfo inputFile = await MediaInfo.Get(Resources.MkvWithAudio).ConfigureAwait(false);
@@ -294,7 +294,7 @@ namespace Xabe.FFmpeg.Test
             Assert.False(mediaInfo.AudioStreams.Any());
         }
 
-        [Fact]
+        [CustomFact]
         public async Task SizeTest()
         {
             IMediaInfo inputFile = await MediaInfo.Get(Resources.MkvWithAudio).ConfigureAwait(false);
@@ -315,7 +315,7 @@ namespace Xabe.FFmpeg.Test
             Assert.Equal(480, mediaInfo.VideoStreams.First().Height);
         }
 
-        [Fact]
+        [CustomFact]
         public async Task SetNullSizeTest()
         {
             IMediaInfo inputFile = await MediaInfo.Get(Resources.MkvWithAudio).ConfigureAwait(false);
@@ -334,7 +334,7 @@ namespace Xabe.FFmpeg.Test
             Assert.False(mediaInfo.AudioStreams.Any());
         }
 
-        [Fact]
+        [CustomFact]
         public async Task VideoCodecTest()
         {
             IMediaInfo inputFile = await MediaInfo.Get(Resources.MkvWithAudio).ConfigureAwait(false);

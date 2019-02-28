@@ -16,7 +16,7 @@ namespace Xabe.FFmpeg.Test
             Console.WriteLine(GetType().Name);
         }
 
-        [Fact]
+        [CustomFact]
         internal async Task FullProcessPassed()
         {
             const OperatingSystem os = OperatingSystem.Linux64;
@@ -84,7 +84,7 @@ namespace Xabe.FFmpeg.Test
             }
         }
 
-        [Theory]
+        [CustomTheory]
         [InlineData(OperatingSystem.Windows64)]
         [InlineData(OperatingSystem.Windows32)]
         [InlineData(OperatingSystem.Osx64)]

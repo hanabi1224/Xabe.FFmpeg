@@ -15,7 +15,7 @@ namespace Xabe.FFmpeg.Test
             Console.WriteLine(GetType().Name);
         }
 
-        [Theory]
+        [CustomTheory]
         [InlineData(13, 13, 1.0)]
         [InlineData(6, 6, 2.0)]
         [InlineData(27, 27, 0.5)]
@@ -38,7 +38,7 @@ namespace Xabe.FFmpeg.Test
             Assert.NotEmpty(mediaInfo.AudioStreams);
         }
 
-        [Fact]
+        [CustomFact]
         public async Task OnConversion_ExtractOnlyAudioStream_OnProgressFires()
         {
             IMediaInfo inputFile = await MediaInfo.Get(Resources.MkvWithAudio).ConfigureAwait(false);

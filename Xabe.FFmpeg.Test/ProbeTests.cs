@@ -13,7 +13,7 @@ namespace Xabe.FFmpeg.Test
             Console.WriteLine(GetType().Name);
         }
 
-        [Fact]
+        [CustomFact]
         public async Task StartWithCsvResultTest()
         {
             string result = await Probe.New()
@@ -25,7 +25,7 @@ namespace Xabe.FFmpeg.Test
             Assert.Equal(3, values.Count());
         }
 
-        [Fact]
+        [CustomFact]
         public async Task StartWithStdOutputTest()
         {
             string result = await Probe.New()
