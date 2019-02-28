@@ -12,11 +12,6 @@ namespace Xabe.FFmpeg.Test
 {
     public class ConversionHelperTests
     {
-        public ConversionHelperTests()
-        {
-            Console.WriteLine(GetType().Name);
-        }
-
         [CustomTheory]
         [InlineData(1, 0)]
         [InlineData(1, 1)]

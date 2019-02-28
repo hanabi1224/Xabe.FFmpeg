@@ -10,11 +10,6 @@ namespace Xabe.FFmpeg.Test
 {
     public class MediaInfoTests
     {
-        public MediaInfoTests()
-        {
-            Console.WriteLine(GetType().Name);
-        }
-
         [CustomFact]
         public async Task AudioPopertiesTest()
         {

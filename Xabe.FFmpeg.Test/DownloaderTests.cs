@@ -11,11 +11,6 @@ namespace Xabe.FFmpeg.Test
 {
     public class DownloaderTests
     {
-        public DownloaderTests()
-        {
-            Console.WriteLine(GetType().Name);
-        }
-
         [CustomFact]
         internal async Task FullProcessPassed()
         {

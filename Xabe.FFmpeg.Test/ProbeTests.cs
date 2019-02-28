@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
@@ -8,11 +7,6 @@ namespace Xabe.FFmpeg.Test
 {
     public class ProbeTests
     {
-        public ProbeTests()
-        {
-            Console.WriteLine(GetType().Name);
-        }
-
         [CustomFact]
         public async Task StartWithCsvResultTest()
         {

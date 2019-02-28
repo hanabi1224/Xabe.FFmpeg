@@ -10,11 +10,6 @@ namespace Xabe.FFmpeg.Test
 {
     public class AudioStreamTests
     {
-        public AudioStreamTests()
-        {
-            Console.WriteLine(GetType().Name);
-        }
-
         [CustomTheory]
         [InlineData(13, 13, 1.0)]
         [InlineData(6, 6, 2.0)]

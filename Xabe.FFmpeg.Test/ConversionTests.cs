@@ -13,11 +13,6 @@ namespace Xabe.FFmpeg.Test
 {
     public class ConversionTests
     {
-        public ConversionTests()
-        {
-            Console.WriteLine(GetType().Name);
-        }
-
         [CustomTheory]
         [InlineData(Position.UpperRight)]
         [InlineData(Position.BottomRight)]
@@ -177,12 +172,14 @@ namespace Xabe.FFmpeg.Test
             var ffmpegProcesses = System.Diagnostics.Process.GetProcessesByName("ffmpeg").Count();
 
             string output = Path.Combine(Path.GetTempPath(), Guid.NewGuid() + FileExtensions.WebM);
-            var cancellationToken = new CancellationTokenSource();
-            cancellationToken.CancelAfter(1000);
-            var conversion = Conversion.New().AddStream(new WebStream(new Uri(@"rtsp://192.168.1.123:554/"), "M3U8", TimeSpan.FromMinutes(5))).SetOutput(output);
+            using (var cancellationToken = new CancellationTokenSource())
+            {
+                cancellationToken.CancelAfter(1000);
+                var conversion = Conversion.New().AddStream(new WebStream(new Uri(@"rtsp://192.168.1.123:554/"), "M3U8", TimeSpan.FromMinutes(5))).SetOutput(output);
 
-            await Assert.ThrowsAsync<OperationCanceledException>(async () => await conversion.Start(cancellationToken.Token).ConfigureAwait(false)).ConfigureAwait(false);
-            Assert.Equal(System.Diagnostics.Process.GetProcessesByName("ffmpeg").Count(), ffmpegProcesses);
+                await Assert.ThrowsAsync<OperationCanceledException>(async () => await conversion.Start(cancellationToken.Token).ConfigureAwait(false)).ConfigureAwait(false);
+                Assert.Equal(System.Diagnostics.Process.GetProcessesByName("ffmpeg").Count(), ffmpegProcesses);
+            }
         }
 
         [CustomFact]

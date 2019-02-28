@@ -49,19 +49,21 @@ namespace Xabe.FFmpeg
                     // https://github.com/Microsoft/vs-threading/blob/master/doc/analyzers/VSTHRD101.md
                     var ctr = cancellationToken.Register(() =>
                     {
-                        process.StandardInput.Write("q");
-                        Task.Delay(1000 * 5).ConfigureAwait(false).GetAwaiter().GetResult();
-
                         try
+                        {
+                            process.StandardInput.Write("q");
+                            Task.Delay(1000 * 5).ConfigureAwait(false).GetAwaiter().GetResult();
+                        }
+                        catch (InvalidOperationException)
+                        {
+                        }
+                        finally
                         {
                             if (!process.HasExited)
                             {
                                 _wasKilled = true;
                                 process.Kill();
                             }
-                        }
-                        catch (InvalidOperationException)
-                        {
                         }
                     });
 

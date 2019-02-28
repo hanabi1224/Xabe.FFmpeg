@@ -11,11 +11,6 @@ namespace Xabe.FFmpeg.Test
 {
     public class SubtitleTests
     {
-        public SubtitleTests()
-        {
-            Console.WriteLine(GetType().Name);
-        }
-
         [CustomTheory]
         [InlineData("Ass", "ass", "ass")]
         [InlineData("WebVTT", "vtt", "webvtt")]

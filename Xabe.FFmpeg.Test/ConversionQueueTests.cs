@@ -9,11 +9,6 @@ namespace Xabe.FFmpeg.Test
 {
     public class ConversionQueueTests
     {
-        public ConversionQueueTests()
-        {
-            Console.WriteLine(GetType().Name);
-        }
-
         [CustomTheory]
         [InlineData(true)]
         [InlineData(false)]
