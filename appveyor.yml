@@ -8,7 +8,7 @@ build_script:
     - dotnet build -c Release
     - dotnet build ExampleProject -c Release
 test_script:
-    - dotnet test -c Release -v n
+    - dotnet test Xabe.FFmpeg.Test -c Release -v n
 branches:
     only:
         - master
