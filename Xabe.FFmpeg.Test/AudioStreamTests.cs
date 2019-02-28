@@ -44,8 +44,8 @@ namespace Xabe.FFmpeg.Test
                                                         .SetSeek(TimeSpan.FromSeconds(2)))
                                                .SetOutput(outputPath);
 
-            TimeSpan currentProgress;
-            TimeSpan videoLength;
+            TimeSpan currentProgress = default;
+            TimeSpan videoLength = default;
             conversion.OnProgress += (sender, e) =>
             {
                 currentProgress = e.Duration;
