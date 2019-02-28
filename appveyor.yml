@@ -5,10 +5,10 @@ install:
     - scoop install ffmpeg
     - refreshenv
 build_script:
-    - dotnet build -c Release
     - dotnet build ExampleProject -c Release
-test_script:
-    - dotnet test Xabe.FFmpeg.Test -c Release -v n
+    - dotnet build -c Release
+#test_script:
+#    - dotnet test Xabe.FFmpeg.Test -c Release -v n
 branches:
     only:
         - master
