@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Win32.SafeHandles;
 using Xabe.FFmpeg.Events;
 using Xabe.FFmpeg.Exceptions;
 
@@ -61,15 +62,34 @@ namespace Xabe.FFmpeg
                         {
                             if (!process.HasExited)
                             {
-                                _wasKilled = true;
+                                process.CloseMainWindow();
                                 process.Kill();
+                                _wasKilled = true;
                             }
                         }
                     });
 
                     using (ctr)
                     {
-                        process.WaitForExit();
+                        using (var processEnded = new ManualResetEvent(false))
+                        {
+                            processEnded.SetSafeWaitHandle(new SafeWaitHandle(process.Handle, false));
+                            int index = WaitHandle.WaitAny(new[] { processEnded, cancellationToken.WaitHandle });
+                            //If the signal came from the caller cancellation token close the window
+                            if (index == 1
+                                && !process.HasExited)
+                            {
+                                process.CloseMainWindow();
+                                process.Kill();
+                                _wasKilled = true;
+                            }
+                            else if (index == 0
+                                && !process.HasExited)
+                            {
+                                // Hacky workaround for linux bug: https://github.com/dotnet/corefx/issues/35544
+                                process.WaitForExit();
+                            }
+                        }
 
                         cancellationToken.ThrowIfCancellationRequested();
                         if (_wasKilled)
