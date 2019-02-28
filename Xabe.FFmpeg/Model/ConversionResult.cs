@@ -22,5 +22,8 @@ namespace Xabe.FFmpeg.Model
 
         /// <inheritdoc />
         public string Arguments { get; internal set; }
+
+        /// <inheritdoc />
+        public int FFmpegProcessId { get; internal set; }
     }
 }

@@ -21,6 +21,11 @@ namespace Xabe.FFmpeg
         string OutputFilePath { get; }
 
         /// <summary>
+        /// FFmpeg process id, null if not started.
+        /// </summary>
+        int? FFmpegProcessId { get; }
+
+        /// <summary>
         ///     Clear saved parameters
         /// </summary>
         void Clear();

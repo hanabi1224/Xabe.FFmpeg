@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using FluentAssertions;
 using Xabe.FFmpeg.Enums;
 using Xabe.FFmpeg.Exceptions;
 using Xabe.FFmpeg.Model;
@@ -169,8 +170,6 @@ namespace Xabe.FFmpeg.Test
         [CustomFact]
         public async Task RTSP_NotExistingStream_CancelledSucesfully()
         {
-            var ffmpegProcesses = System.Diagnostics.Process.GetProcessesByName("ffmpeg").Count();
-
             string output = Path.Combine(Path.GetTempPath(), Guid.NewGuid() + FileExtensions.WebM);
             using (var cancellationToken = new CancellationTokenSource())
             {
@@ -179,11 +178,18 @@ namespace Xabe.FFmpeg.Test
                 var conversion = Conversion.New().AddStream(new WebStream(new Uri(@"rtsp://192.168.1.123:554/"), "M3U8", TimeSpan.FromMinutes(5))).SetOutput(output);
                 Console.WriteLine($"Finished setting up web stream");
 
+                var ffmpegProcesses = System.Diagnostics.Process.GetProcessesByName("ffmpeg");
                 Console.WriteLine($"Started conversion");
-                await Assert.ThrowsAsync<OperationCanceledException>(async () => await conversion.Start(cancellationToken.Token).ConfigureAwait(false)).ConfigureAwait(false);
+
+                IConversionResult conversionResult = null;
+                await Assert.ThrowsAsync<OperationCanceledException>(async () => conversionResult = await conversion.Start(cancellationToken.Token).ConfigureAwait(false)).ConfigureAwait(false);
                 Console.WriteLine($"Finished conversion");
 
-                Assert.Equal(System.Diagnostics.Process.GetProcessesByName("ffmpeg").Count(), ffmpegProcesses);
+                conversionResult.Should().BeNull();
+                conversion.FFmpegProcessId.HasValue.Should().BeTrue();
+                conversion.FFmpegProcessId.Value.Should().BeGreaterThan(0);
+
+                ffmpegProcesses.Any(_ => _.Id == conversion.FFmpegProcessId).Should().BeFalse();
             }
         }
 

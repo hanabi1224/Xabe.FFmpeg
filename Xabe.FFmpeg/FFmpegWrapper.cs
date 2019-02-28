@@ -41,7 +41,6 @@ namespace Xabe.FFmpeg
                 _outputLog = new List<string>();
 
                 var process = RunProcess(args, FFmpegPath, true, true, true);
-
                 using (process)
                 {
                     process.ErrorDataReceived += (sender, e) => ProcessOutputData(e, args);
@@ -50,21 +49,24 @@ namespace Xabe.FFmpeg
                     // https://github.com/Microsoft/vs-threading/blob/master/doc/analyzers/VSTHRD101.md
                     var ctr = cancellationToken.Register(() =>
                     {
-                        try
+                        if (Environment.OSVersion.Platform != PlatformID.Win32NT)
                         {
-                            process.StandardInput.Write("q");
-                            Task.Delay(1000 * 5).ConfigureAwait(false).GetAwaiter().GetResult();
-                        }
-                        catch (InvalidOperationException)
-                        {
-                        }
-                        finally
-                        {
-                            if (!process.HasExited)
+                            try
                             {
-                                process.CloseMainWindow();
-                                process.Kill();
-                                _wasKilled = true;
+                                process.StandardInput.Write("q");
+                                Task.Delay(1000 * 5).ConfigureAwait(false).GetAwaiter().GetResult();
+                            }
+                            catch (InvalidOperationException)
+                            {
+                            }
+                            finally
+                            {
+                                if (!process.HasExited)
+                                {
+                                    process.CloseMainWindow();
+                                    process.Kill();
+                                    _wasKilled = true;
+                                }
                             }
                         }
                     });

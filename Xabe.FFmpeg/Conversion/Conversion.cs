@@ -29,6 +29,10 @@ namespace Xabe.FFmpeg
         private string _shortestInput;
         private bool _useMultiThreads = true;
         private int? _threadsCount;
+        private FFmpegWrapper _ffmpeg;
+
+        /// <inheritdoc />
+        public int? FFmpegProcessId => _ffmpeg?.FFmpegProcessId;
 
         /// <inheritdoc />
         public string Build()
@@ -78,19 +82,33 @@ namespace Xabe.FFmpeg
         /// <inheritdoc />
         public async Task<IConversionResult> Start(string parameters, CancellationToken cancellationToken)
         {
-            var ffmpeg = new FFmpegWrapper();
-            ffmpeg.OnProgress += OnProgress;
-            ffmpeg.OnDataReceived += OnDataReceived;
-            var result = new ConversionResult
+            if (_ffmpeg != null)
             {
-                StartTime = DateTime.Now,
-                Success = await ffmpeg.RunProcess(parameters, cancellationToken).ConfigureAwait(false),
-                EndTime = DateTime.Now,
-                MediaInfo = new Lazy<IMediaInfo>(() => MediaInfo.Get(OutputFilePath)
-                                                                .Result),
-                Arguments = parameters
-            };
-            return result;
+                throw new InvalidOperationException("Conversion has already been started. ");
+            }
+
+            _ffmpeg = new FFmpegWrapper();
+            try
+            {
+                _ffmpeg.OnProgress += OnProgress;
+                _ffmpeg.OnDataReceived += OnDataReceived;
+                var result = new ConversionResult
+                {
+                    StartTime = DateTime.Now,
+                    Success = await _ffmpeg.RunProcess(parameters, cancellationToken).ConfigureAwait(false),
+                    EndTime = DateTime.Now,
+                    MediaInfo = new Lazy<IMediaInfo>(() => MediaInfo.Get(OutputFilePath)
+                                                                    .Result),
+                    Arguments = parameters,
+                    FFmpegProcessId = _ffmpeg.FFmpegProcessId,
+                };
+
+                return result;
+            }
+            catch
+            {
+                throw;
+            }
         }
 
         /// <inheritdoc />

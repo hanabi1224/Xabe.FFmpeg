@@ -24,6 +24,11 @@ namespace Xabe.FFmpeg
         private static readonly object s_ffprobePathLock = new object();
 
         /// <summary>
+        /// FFmpeg process id
+        /// </summary>
+        public int FFmpegProcessId { get; private set; }
+
+        /// <summary>
         ///     Directory contains FFmpeg and FFprobe
         /// </summary>
         [Obsolete("Please use ExecutablePath property.")]
@@ -210,6 +215,8 @@ namespace Xabe.FFmpeg
             };
 
             process.Start();
+            FFmpegProcessId = process.Id;
+
             return process;
         }
     }
