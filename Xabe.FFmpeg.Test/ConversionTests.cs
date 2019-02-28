@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Xabe.FFmpeg.Enums;
@@ -14,6 +13,11 @@ namespace Xabe.FFmpeg.Test
 {
     public class ConversionTests
     {
+        public ConversionTests()
+        {
+            Console.WriteLine(GetType().Name);
+        }
+
         [Theory]
         [InlineData(Position.UpperRight)]
         [InlineData(Position.BottomRight)]

@@ -11,8 +11,12 @@ using Xunit;
 namespace Xabe.FFmpeg.Test
 {
     public class ConversionHelperTests
-
     {
+        public ConversionHelperTests()
+        {
+            Console.WriteLine(GetType().Name);
+        }
+
         [Theory]
         [InlineData(1, 0)]
         [InlineData(1, 1)]

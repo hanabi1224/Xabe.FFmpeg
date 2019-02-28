@@ -11,6 +11,11 @@ namespace Xabe.FFmpeg.Test
 {
     public class VideoStreamTests
     {
+        public VideoStreamTests()
+        {
+            Console.WriteLine(GetType().Name);
+        }
+
         [Theory]
         [InlineData(RotateDegrees.Clockwise)]
         [InlineData(RotateDegrees.Invert)]

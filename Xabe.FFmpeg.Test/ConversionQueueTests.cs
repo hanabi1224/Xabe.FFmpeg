@@ -2,15 +2,18 @@
 using System.IO;
 using System.Linq;
 using System.Threading;
-using System.Threading.Tasks;
 using Xabe.FFmpeg.Enums;
 using Xunit;
 
 namespace Xabe.FFmpeg.Test
 {
     public class ConversionQueueTests
-
     {
+        public ConversionQueueTests()
+        {
+            Console.WriteLine(GetType().Name);
+        }
+
         [Theory]
         [InlineData(true)]
         [InlineData(false)]

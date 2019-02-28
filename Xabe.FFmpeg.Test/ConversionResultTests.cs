@@ -9,6 +9,11 @@ namespace Xabe.FFmpeg.Test
 {
     public class ConversionResultTests
     {
+        public ConversionResultTests()
+        {
+            Console.WriteLine(GetType().Name);
+        }
+
         [Fact]
         public async Task ConversionResultTest()
         {

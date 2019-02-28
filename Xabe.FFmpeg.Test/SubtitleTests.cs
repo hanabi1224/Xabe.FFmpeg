@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Xabe.FFmpeg.Enums;
@@ -10,6 +11,11 @@ namespace Xabe.FFmpeg.Test
 {
     public class SubtitleTests
     {
+        public SubtitleTests()
+        {
+            Console.WriteLine(GetType().Name);
+        }
+
         [Theory]
         [InlineData("Ass", "ass", "ass")]
         [InlineData("WebVTT", "vtt", "webvtt")]
