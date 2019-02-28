@@ -4,6 +4,7 @@ install:
     - ps: iex (new-object net.webclient).downloadstring('https://get.scoop.sh')
     - scoop install ffmpeg
     - refreshenv
+    - dotnet --info
 build_script:
     - dotnet build ExampleProject -c Release
     - dotnet build -c Release
