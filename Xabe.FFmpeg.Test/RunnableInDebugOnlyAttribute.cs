@@ -39,7 +39,7 @@ namespace Xabe.FFmpeg.Test
     {
         public CustomFactAttribute()
         {
-            Timeout = 10 * 1000;
+            Timeout = 45 * 1000;
         }
     }
 
@@ -47,7 +47,7 @@ namespace Xabe.FFmpeg.Test
     {
         public CustomTheoryAttribute()
         {
-            Timeout = 10 * 1000;
+            Timeout = 45 * 1000;
         }
     }
 

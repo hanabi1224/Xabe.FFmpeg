@@ -145,7 +145,7 @@ namespace Xabe.FFmpeg.Test
         }
 
 
-        [Theory(Timeout = 10000)]
+        [CustomTheory]
         [InlineData("a16f0cb5c0354b6197e9f3bc3108c017")]
         public async Task MissingHardwareAccelerator(string hardwareAccelerator)
         {
