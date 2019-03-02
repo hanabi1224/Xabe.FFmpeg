@@ -5,7 +5,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Xabe.FFmpeg;
 using Xabe.FFmpeg.Enums;
-using Xabe.FFmpeg.Streams;
 
 namespace MyVideosConverter
 {
@@ -31,8 +30,6 @@ namespace MyVideosConverter
 
             Console.In.ReadLine();
         }
-
-
 
         private static async Task RunConversion(Queue<FileInfo> filesToConvert)
         {

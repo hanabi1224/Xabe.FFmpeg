@@ -1,6 +1,6 @@
 language: csharp
 mono: none
-dotnet: 2.2.100
+dotnet: 2.0.0
 dist: trusty
 env:
   global:
@@ -14,9 +14,9 @@ before_install:
 
 install:
  - dotnet restore
+ - dotnet test Xabe.FFmpeg.Test/ -c Release -v n
+ - dotnet build ExampleProject/ -c Release
+ - dotnet clean -c Release
 
 script:
- - dotnet build ExampleProject/ -c Release
- - dotnet test Xabe.FFmpeg.Test/ -c Release -v n
- - dotnet clean -c Release
  - ./build.sh

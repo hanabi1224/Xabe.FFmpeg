@@ -29,10 +29,8 @@ namespace Xabe.FFmpeg
         private string _shortestInput;
         private bool _useMultiThreads = true;
         private int? _threadsCount;
+        private ProcessPriorityClass? _priority = null;
         private FFmpegWrapper _ffmpeg;
-
-        /// <inheritdoc />
-        public int? FFmpegProcessId => _ffmpeg?.FFmpegProcessId;
 
         /// <inheritdoc />
         public string Build()
@@ -62,6 +60,9 @@ namespace Xabe.FFmpeg
         public event DataReceivedEventHandler OnDataReceived;
 
         /// <inheritdoc />
+        public int? FFmpegProcessId => _ffmpeg?.FFmpegProcessId;
+
+        /// <inheritdoc />
         public Task<IConversionResult> Start()
         {
             return Start(Build());
@@ -88,27 +89,20 @@ namespace Xabe.FFmpeg
             }
 
             _ffmpeg = new FFmpegWrapper();
-            try
+            _ffmpeg.Priority = _priority;
+            _ffmpeg.OnProgress += OnProgress;
+            _ffmpeg.OnDataReceived += OnDataReceived;
+            var result = new ConversionResult
             {
-                _ffmpeg.OnProgress += OnProgress;
-                _ffmpeg.OnDataReceived += OnDataReceived;
-                var result = new ConversionResult
-                {
-                    StartTime = DateTime.Now,
-                    Success = await _ffmpeg.RunProcess(parameters, cancellationToken).ConfigureAwait(false),
-                    EndTime = DateTime.Now,
-                    MediaInfo = new Lazy<IMediaInfo>(() => MediaInfo.Get(OutputFilePath)
-                                                                    .Result),
-                    Arguments = parameters,
-                    FFmpegProcessId = _ffmpeg.FFmpegProcessId,
-                };
+                StartTime = DateTime.Now,
+                Success = await _ffmpeg.RunProcess(parameters, cancellationToken).ConfigureAwait(false),
+                EndTime = DateTime.Now,
+                MediaInfo = new Lazy<IMediaInfo>(() => MediaInfo.Get(OutputFilePath)
+                                                                .Result),
+                Arguments = parameters
+            };
 
-                return result;
-            }
-            catch
-            {
-                throw;
-            }
+            return result;
         }
 
         /// <inheritdoc />
@@ -185,6 +179,13 @@ namespace Xabe.FFmpeg
         public IConversion UseShortest(bool useShortest)
         {
             _shortestInput = !useShortest ? string.Empty : "-shortest ";
+            return this;
+        }
+
+        /// <inheritdoc />
+        public IConversion SetPriority(ProcessPriorityClass? priority)
+        {
+            _priority = priority;
             return this;
         }
 

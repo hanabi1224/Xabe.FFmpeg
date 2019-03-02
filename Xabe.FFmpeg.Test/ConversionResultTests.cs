@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
 using FluentAssertions;
@@ -10,13 +11,17 @@ namespace Xabe.FFmpeg.Test
 {
     public class ConversionResultTests
     {
-        [CustomFact]
-        public async Task ConversionResultTest()
+        [CustomTheory]
+        [InlineData(null)]
+        //[InlineData(ProcessPriorityClass.High)]
+        [InlineData(ProcessPriorityClass.BelowNormal)]
+        public async Task ConversionResultTest(ProcessPriorityClass? priority)
         {
             string outputPath = Path.ChangeExtension(Path.GetTempFileName(), ".mp4");
 
             IConversionResult result = await Conversion.ToMp4(Resources.Mp4WithAudio, outputPath)
                                              .SetPreset(Enums.ConversionPreset.UltraFast)
+                                             .SetPriority(priority)
                                              .Start().ConfigureAwait(false);
 
             Assert.True(result.Success);
