@@ -36,10 +36,5 @@ namespace Xabe.FFmpeg.Model
         ///     Arguments passed to ffmpeg
         /// </summary>
         string Arguments { get; }
-
-        /// <summary>
-        /// FFmpeg process id
-        /// </summary>
-        int FFmpegProcessId { get; }
     }
 }

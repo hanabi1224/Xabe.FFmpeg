@@ -2,7 +2,6 @@
 using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
-using FluentAssertions;
 using Xabe.FFmpeg.Exceptions;
 using Xabe.FFmpeg.Model;
 using Xunit;
@@ -29,8 +28,6 @@ namespace Xabe.FFmpeg.Test
             Assert.True(result.StartTime != DateTime.MinValue);
             Assert.True(result.EndTime != DateTime.MinValue);
             Assert.True(result.Duration > TimeSpan.FromMilliseconds(1));
-
-            result.FFmpegProcessId.Should().BeGreaterThan(0);
         }
 
         [CustomFact]
